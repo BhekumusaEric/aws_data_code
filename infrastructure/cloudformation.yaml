@@ -1,0 +1,4 @@
+# CloudFormation template placeholder
+Resources:
+  SampleBucket:
+    Type: AWS::S3::Bucket
