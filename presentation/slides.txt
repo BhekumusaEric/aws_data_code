@@ -1,0 +1,108 @@
+# Slide 1: Title Slide
+
+**Student Insights Pipeline**
+Using Data Engineering to Personalize Education
+*Data Engineering Challenge 2025 – Team Kagiso, Mesh & Kgothatso*
+
+---
+
+# Slide 2: The Problem
+
+**One-Size-Fits-All Learning Is Failing Many Students**
+
+* Teachers lack clear, individualized insight into student struggles
+* Students fall behind before issues are noticed
+* Manual tracking is time-consuming and error-prone
+
+---
+
+# Slide 3: Our Solution
+
+**Student Insights Pipeline**
+A lightweight, serverless data pipeline that:
+
+* Ingests student performance data in real-time
+* Analyzes it for trends and risks
+* Surfaces tailored insights to support each learner
+
+---
+
+# Slide 4: How It Works
+
+**End-to-End Data Pipeline**
+
+1. **Ingest** – Lambda/API Gateway receives student data
+2. **Store** – Amazon S3 stores raw and transformed data
+3. **Transform** – Cleaned via AWS Glue or Python
+4. **Analyze** – Athena queries surface insights
+5. **Visualize** – Optional QuickSight dashboards for educators
+
+---
+
+# Slide 5: Technologies Used (Free Tier)
+
+| Layer      | Service               |
+| ---------- | --------------------- |
+| Compute    | AWS Lambda            |
+| API        | API Gateway           |
+| Storage    | Amazon S3             |
+| Processing | AWS Glue / Python     |
+| Query      | Amazon Athena         |
+| Dashboard  | QuickSight (optional) |
+
+---
+
+# Slide 6: Sample Insights
+
+**What Can We Show Educators?**
+
+* Students at risk in specific subjects
+* Trends in performance over time
+* Correlation between attendance and scores
+* Comparative class analytics
+
+---
+
+# Slide 7: Business & Educational Impact
+
+* Enables **personalized learning paths**
+* Improves student support through **early detection**
+* Scalable for schools, universities, and edtech platforms
+* Fully compatible with AWS Free Tier – **zero barrier to entry**
+
+---
+
+# Slide 8: Security & Cost
+
+**Security**
+
+* IAM roles protect access to S3 and Lambda
+* No PII stored
+
+**Cost Efficiency**
+
+* Built entirely using AWS Free Tier
+* Lightweight, serverless, scalable
+
+---
+
+# Slide 9: Demo Snapshot
+
+* Show API usage or Athena query results
+* Screenshot of sample dashboard or CSV upload
+
+---
+
+# Slide 10: What's Next?
+
+* Real classroom testing
+* Expand to predictive analytics
+* Build integrations with school management systems
+
+---
+
+# Slide 11: Thank You
+
+**Team:** Kagiso, Mesh Ngoatoana, Kgothatso Mtshali
+**GitHub:** github.com/BhekumusaEric/aws\_data\_code
+**Powered by AWS, Python, and Passion for Education**
