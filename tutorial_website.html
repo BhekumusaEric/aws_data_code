@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Insights Pipeline - Tutorial & Learning Center</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #667eea;
+        }
+        
+        main {
+            margin-top: 80px;
+            padding: 2rem 0;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            color: white;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: #ff6b6b;
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+        }
+        
+        .tutorial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 4rem 0;
+        }
+        
+        .tutorial-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tutorial-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+        
+        .tutorial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        
+        .tutorial-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .tutorial-card h3 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .tutorial-card p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+        
+        .tutorial-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: #888;
+        }
+        
+        .start-button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            width: 100%;
+        }
+        
+        .start-button:hover {
+            background: #5a6fd8;
+            transform: translateY(-1px);
+        }
+        
+        .features-section {
+            background: white;
+            padding: 4rem 0;
+            margin: 2rem 0;
+            border-radius: 20px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .feature-item {
+            text-align: center;
+            padding: 1.5rem;
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .quick-start {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 2rem 0;
+            color: white;
+        }
+        
+        .step-list {
+            list-style: none;
+            counter-reset: step-counter;
+        }
+        
+        .step-list li {
+            counter-increment: step-counter;
+            margin: 1rem 0;
+            padding-left: 3rem;
+            position: relative;
+        }
+        
+        .step-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #ff6b6b;
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .video-section {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .video-placeholder {
+            background: #f0f0f0;
+            border-radius: 10px;
+            padding: 4rem 2rem;
+            margin: 2rem 0;
+            border: 2px dashed #ccc;
+        }
+        
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+        }
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close:hover {
+            color: #000;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .tutorial-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">🎓 Student Insights Tutorial</div>
+            <ul class="nav-links">
+                <li><a href="#tutorials">Tutorials</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#quick-start">Quick Start</a></li>
+                <li><a href="#videos">Videos</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>🚀 Master Student Insights Pipeline</h1>
+                <p>Interactive tutorials to help you transform student outcomes with data-driven insights</p>
+                <a href="#tutorials" class="cta-button">Start Learning Now</a>
+            </div>
+        </section>
+
+        <section id="tutorials" class="container">
+            <h2 style="text-align: center; color: white; margin-bottom: 2rem; font-size: 2.5rem;">📚 Interactive Tutorials</h2>
+            
+            <div class="tutorial-grid">
+                <div class="tutorial-card">
+                    <div class="tutorial-icon">🏠</div>
+                    <h3>System Overview</h3>
+                    <div class="tutorial-meta">
+                        <span>⏱️ 5 minutes</span>
+                        <span>🎮 Interactive</span>
+                    </div>
+                    <p>Get familiar with the dashboard layout, navigation, and key features. Perfect starting point for new users.</p>
+                    <button class="start-button" onclick="startTutorial('overview')">Start Tutorial</button>
+                </div>
+
+                <div class="tutorial-card">
+                    <div class="tutorial-icon">👩‍🏫</div>
+                    <h3>Teacher Portal</h3>
+                    <div class="tutorial-meta">
+                        <span>⏱️ 8 minutes</span>
+                        <span>🎯 Role-specific</span>
+                    </div>
+                    <p>Learn to manage your classroom, identify at-risk students, and create personalized intervention plans.</p>
+                    <button class="start-button" onclick="startTutorial('teacher')">Start Tutorial</button>
+                </div>
+
+                <div class="tutorial-card">
+                    <div class="tutorial-icon">👨‍👩‍👧‍👦</div>
+                    <h3>Parent Portal</h3>
+                    <div class="tutorial-meta">
+                        <span>⏱️ 6 minutes</span>
+                        <span>👪 Family-focused</span>
+                    </div>
+                    <p>Discover how to support your child's learning at home with personalized recommendations and progress tracking.</p>
+                    <button class="start-button" onclick="startTutorial('parent')">Start Tutorial</button>
+                </div>
+
+                <div class="tutorial-card">
+                    <div class="tutorial-icon">📊</div>
+                    <h3>Predictive Analytics</h3>
+                    <div class="tutorial-meta">
+                        <span>⏱️ 7 minutes</span>
+                        <span>🤖 AI-powered</span>
+                    </div>
+                    <p>Understand risk assessment, trend analysis, and how AI helps predict student needs before problems arise.</p>
+                    <button class="start-button" onclick="startTutorial('analytics')">Start Tutorial</button>
+                </div>
+
+                <div class="tutorial-card">
+                    <div class="tutorial-icon">🎯</div>
+                    <h3>Intervention Plans</h3>
+                    <div class="tutorial-meta">
+                        <span>⏱️ 5 minutes</span>
+                        <span>📋 Action-oriented</span>
+                    </div>
+                    <p>Create effective action plans, track intervention success, and collaborate with parents and colleagues.</p>
+                    <button class="start-button" onclick="startTutorial('interventions')">Start Tutorial</button>
+                </div>
+
+                <div class="tutorial-card">
+                    <div class="tutorial-icon">📈</div>
+                    <h3>Advanced Features</h3>
+                    <div class="tutorial-meta">
+                        <span>⏱️ 10 minutes</span>
+                        <span>🔧 Power user</span>
+                    </div>
+                    <p>Explore advanced analytics, custom reports, data export, and integration with other educational tools.</p>
+                    <button class="start-button" onclick="startTutorial('advanced')">Start Tutorial</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="features-section">
+            <div class="container">
+                <h2 style="text-align: center; margin-bottom: 2rem; color: #333;">✨ What You'll Learn</h2>
+                
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon">🎯</div>
+                        <h3>Risk Identification</h3>
+                        <p>Spot struggling students early using AI-powered risk assessment</p>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-icon">📊</div>
+                        <h3>Data Visualization</h3>
+                        <p>Read and interpret interactive charts and performance metrics</p>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-icon">🤝</div>
+                        <h3>Parent Engagement</h3>
+                        <p>Communicate effectively with families using data-driven insights</p>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-icon">📋</div>
+                        <h3>Action Planning</h3>
+                        <p>Create and manage personalized intervention strategies</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="quick-start" class="quick-start">
+            <div class="container">
+                <h2>🚀 Quick Start Guide</h2>
+                <p>Get up and running in just 5 minutes:</p>
+                
+                <ol class="step-list">
+                    <li><strong>Launch the System:</strong> Run <code>streamlit run predictive_intervention_system.py</code></li>
+                    <li><strong>Choose Your Role:</strong> Select Teacher, Parent, or Administrator view</li>
+                    <li><strong>Explore Sample Data:</strong> Familiarize yourself with the interface using demo data</li>
+                    <li><strong>Take a Tutorial:</strong> Complete the role-specific tutorial for your needs</li>
+                    <li><strong>Start Using:</strong> Begin with real student data and create your first intervention plan</li>
+                </ol>
+                
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="cta-button" onclick="launchSystem()">🚀 Launch System Now</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="videos" class="video-section">
+            <div class="container">
+                <h2>🎥 Video Tutorials</h2>
+                <p>Watch step-by-step video guides for visual learners</p>
+                
+                <div class="video-placeholder">
+                    <h3>📹 Coming Soon: Video Tutorial Series</h3>
+                    <p>We're creating comprehensive video tutorials covering:</p>
+                    <ul style="text-align: left; display: inline-block; margin-top: 1rem;">
+                        <li>System walkthrough and navigation</li>
+                        <li>Teacher workflow demonstrations</li>
+                        <li>Parent portal usage examples</li>
+                        <li>Advanced analytics deep-dive</li>
+                        <li>Real-world case studies</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Student Insights Pipeline. Built with ❤️ for educators and families.</p>
+            <p>Questions? Contact us: <a href="mailto:support@studentinsights.edu" style="color: #667eea;">support@studentinsights.edu</a></p>
+        </div>
+    </footer>
+
+    <!-- Tutorial Modal -->
+    <div id="tutorialModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeTutorial()">&times;</span>
+            <div id="tutorialContent">
+                <!-- Tutorial content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function startTutorial(type) {
+            const modal = document.getElementById('tutorialModal');
+            const content = document.getElementById('tutorialContent');
+            
+            const tutorials = {
+                'overview': {
+                    title: '🏠 System Overview Tutorial',
+                    content: `
+                        <h2>Welcome to Student Insights Pipeline!</h2>
+                        <p>This tutorial will guide you through the main features:</p>
+                        <ol>
+                            <li><strong>Dashboard Navigation:</strong> Learn to use the sidebar menu</li>
+                            <li><strong>Student Data:</strong> Understand risk levels and performance metrics</li>
+                            <li><strong>Filtering:</strong> Focus on specific grades or subjects</li>
+                            <li><strong>Quick Actions:</strong> Access common tasks efficiently</li>
+                        </ol>
+                        <div style="text-align: center; margin-top: 2rem;">
+                            <button class="cta-button" onclick="launchInteractiveTutorial('overview')">
+                                🚀 Start Interactive Tutorial
+                            </button>
+                        </div>
+                    `
+                },
+                'teacher': {
+                    title: '👩‍🏫 Teacher Portal Tutorial',
+                    content: `
+                        <h2>Master the Teacher Portal</h2>
+                        <p>Learn to effectively manage your classroom:</p>
+                        <ul>
+                            <li>📊 <strong>Class Overview:</strong> Monitor all students at once</li>
+                            <li>🎯 <strong>Risk Assessment:</strong> Identify students needing support</li>
+                            <li>📋 <strong>Intervention Plans:</strong> Create personalized action plans</li>
+                            <li>👨‍👩‍👧‍👦 <strong>Parent Communication:</strong> Share insights with families</li>
+                            <li>📈 <strong>Progress Tracking:</strong> Monitor intervention effectiveness</li>
+                        </ul>
+                        <div style="text-align: center; margin-top: 2rem;">
+                            <button class="cta-button" onclick="launchInteractiveTutorial('teacher')">
+                                🚀 Start Teacher Tutorial
+                            </button>
+                        </div>
+                    `
+                },
+                'parent': {
+                    title: '👨‍👩‍👧‍👦 Parent Portal Tutorial',
+                    content: `
+                        <h2>Support Your Child's Success</h2>
+                        <p>Discover how to help your child thrive:</p>
+                        <ul>
+                            <li>📊 <strong>Progress Reports:</strong> Understand your child's performance</li>
+                            <li>🏠 <strong>Home Support:</strong> Get specific strategies for home</li>
+                            <li>🎯 <strong>Goal Setting:</strong> Work together on academic targets</li>
+                            <li>📞 <strong>Teacher Communication:</strong> Stay connected with educators</li>
+                            <li>🎉 <strong>Celebrate Success:</strong> Recognize improvements and achievements</li>
+                        </ul>
+                        <div style="text-align: center; margin-top: 2rem;">
+                            <button class="cta-button" onclick="launchInteractiveTutorial('parent')">
+                                🚀 Start Parent Tutorial
+                            </button>
+                        </div>
+                    `
+                }
+            };
+            
+            if (tutorials[type]) {
+                content.innerHTML = tutorials[type].content;
+                modal.style.display = 'block';
+            }
+        }
+        
+        function closeTutorial() {
+            document.getElementById('tutorialModal').style.display = 'none';
+        }
+        
+        function launchInteractiveTutorial(type) {
+            // This would launch the actual Streamlit tutorial
+            alert(`Launching ${type} tutorial in the main application...`);
+            window.open('http://localhost:8501', '_blank');
+        }
+        
+        function launchSystem() {
+            window.open('http://localhost:8501', '_blank');
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('tutorialModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
