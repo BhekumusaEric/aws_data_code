@@ -103,9 +103,9 @@ student_insights_pipeline/
 ---
 
 ## 📬 Team Info
-- **Team Members**: Kagiso, Mesh Ngoatoana, Kgothatso Mtshali
+- **Team Members**: Sibusiso Skhosana, Eric Noah Ntshwenya, Israel Mbuyu
 - **Challenge**: AWS Data Engineering Challenge 2025
-- **Email**: yourname@example.com
+- **Email**: siskhoscjc025@student.wethinkcode.co.za, ismbuyucjc025@student.wethinkcode.co.za, bhntshwcjc025@student.wethinkcode.co.za
 
 ---
 
@@ -150,9 +150,6 @@ This project can be used by:
 Want help turning this into a SaaS or pitch deck? Let’s go!
 
 
-# Student Insights Pipeline
-
-A smart data engineering solution designed to help educators personalize student support by identifying individual learning challenges and strengths using real-time insights — built entirely using **Python** and **AWS Free Tier services**.
 
 ---
 

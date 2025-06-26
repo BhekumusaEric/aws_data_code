@@ -1,0 +1,31 @@
+# AWS SDK and Core Dependencies
+boto3==1.34.34
+botocore==1.34.34
+
+# Data Processing and Analytics
+pandas==2.1.4
+numpy==1.24.4
+pyarrow==14.0.2
+
+# Data Validation and Quality
+jsonschema==4.20.0
+cerberus==1.3.5
+
+# Utilities and Helpers
+python-dateutil==2.8.2
+pytz==2023.3
+requests==2.31.0
+
+# Development and Testing
+pytest==7.4.4
+pytest-cov==4.1.0
+moto==4.2.14
+black==23.12.1
+flake8==7.0.0
+
+# Logging and Monitoring
+structlog==23.2.0
+
+# Optional: For local development and testing
+awscli==1.32.34
+localstack==3.0.2
