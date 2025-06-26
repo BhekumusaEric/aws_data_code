@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Insights Pipeline - Dashboard Preview</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        .header {
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 3rem;
+        }
+        .header p {
+            margin: 0.5rem 0 0 0;
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .metrics-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+            border-left: 4px solid #667eea;
+        }
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+        .metric-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        .chart-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .chart-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .chart-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        .chart-placeholder {
+            height: 300px;
+            background: linear-gradient(45deg, #f0f2f6 25%, transparent 25%), 
+                        linear-gradient(-45deg, #f0f2f6 25%, transparent 25%), 
+                        linear-gradient(45deg, transparent 75%, #f0f2f6 75%), 
+                        linear-gradient(-45deg, transparent 75%, #f0f2f6 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-style: italic;
+        }
+        .alert-section {
+            margin-bottom: 2rem;
+        }
+        .alert-high {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+        .alert-medium {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 1rem;
+            border-radius: 4px;
+        }
+        .student-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        .student-table th,
+        .student-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .student-table th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        .tabs {
+            display: flex;
+            background: white;
+            border-radius: 8px 8px 0 0;
+            margin-bottom: 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .tab {
+            padding: 1rem 2rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        .tab.active {
+            border-bottom-color: #667eea;
+            background-color: #f8f9fa;
+        }
+        .tab-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .feature-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 4px solid #4caf50;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        .status-demo {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        .status-live {
+            background-color: #d4edda;
+            color: #155724;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="header">
+            <h1>🎓 Student Insights Pipeline</h1>
+            <p>Interactive Analytics Dashboard</p>
+            <div class="status-badge status-demo">Demo Mode - Configure AWS for Live Data</div>
+        </div>
+
+        <!-- Key Metrics -->
+        <div class="metrics-row">
+            <div class="metric-card">
+                <div class="metric-value">500</div>
+                <div class="metric-label">Total Students</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">74.8%</div>
+                <div class="metric-label">Average Score</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">89.2%</div>
+                <div class="metric-label">Average Attendance</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">23</div>
+                <div class="metric-label">High Risk Students</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">87</div>
+                <div class="metric-label">Excellent Performers</div>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="tabs">
+            <div class="tab active">📊 Overview</div>
+            <div class="tab">📈 Performance</div>
+            <div class="tab">⚠️ Risk Analysis</div>
+            <div class="tab">📚 Subject Analysis</div>
+            <div class="tab">📝 Data Entry</div>
+        </div>
+
+        <div class="tab-content">
+            <!-- Charts Section -->
+            <div class="chart-container">
+                <div class="chart-card">
+                    <div class="chart-title">Performance Categories</div>
+                    <div class="chart-placeholder">Interactive Pie Chart<br>Performance Distribution</div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-title">Risk Level Distribution</div>
+                    <div class="chart-placeholder">Interactive Pie Chart<br>Risk Assessment</div>
+                </div>
+            </div>
+
+            <!-- Risk Analysis Section -->
+            <div class="alert-section">
+                <h3>⚠️ Risk Analysis & Early Warning</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                    <div class="alert-high">
+                        <strong>🚨 23 High Risk Students</strong><br>
+                        Immediate intervention recommended
+                        <table class="student-table">
+                            <thead>
+                                <tr>
+                                    <th>Student ID</th>
+                                    <th>Name</th>
+                                    <th>Grade</th>
+                                    <th>Avg Score</th>
+                                    <th>Attendance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>STU0045</td>
+                                    <td>Student 45</td>
+                                    <td>10</td>
+                                    <td>52.3%</td>
+                                    <td>72.1%</td>
+                                </tr>
+                                <tr>
+                                    <td>STU0123</td>
+                                    <td>Student 123</td>
+                                    <td>11</td>
+                                    <td>48.7%</td>
+                                    <td>68.5%</td>
+                                </tr>
+                                <tr>
+                                    <td>STU0234</td>
+                                    <td>Student 234</td>
+                                    <td>9</td>
+                                    <td>45.2%</td>
+                                    <td>71.3%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="alert-medium">
+                        <strong>⚠️ 67 Medium Risk Students</strong><br>
+                        Monitor closely and provide support
+                        <table class="student-table">
+                            <thead>
+                                <tr>
+                                    <th>Student ID</th>
+                                    <th>Name</th>
+                                    <th>Grade</th>
+                                    <th>Avg Score</th>
+                                    <th>Attendance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>STU0067</td>
+                                    <td>Student 67</td>
+                                    <td>10</td>
+                                    <td>62.8%</td>
+                                    <td>82.4%</td>
+                                </tr>
+                                <tr>
+                                    <td>STU0156</td>
+                                    <td>Student 156</td>
+                                    <td>12</td>
+                                    <td>65.1%</td>
+                                    <td>79.7%</td>
+                                </tr>
+                                <tr>
+                                    <td>STU0289</td>
+                                    <td>Student 289</td>
+                                    <td>11</td>
+                                    <td>63.5%</td>
+                                    <td>81.2%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Section -->
+            <h3>🚀 Dashboard Features</h3>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <strong>📊 Real-time Analytics</strong><br>
+                    Live performance metrics and KPIs
+                </div>
+                <div class="feature-item">
+                    <strong>🔍 Interactive Filters</strong><br>
+                    Filter by grade, subject, risk level, date range
+                </div>
+                <div class="feature-item">
+                    <strong>📈 Performance Trends</strong><br>
+                    Time-series analysis and trend visualization
+                </div>
+                <div class="feature-item">
+                    <strong>⚠️ Early Warning System</strong><br>
+                    Automated risk assessment and alerts
+                </div>
+                <div class="feature-item">
+                    <strong>📚 Subject Analysis</strong><br>
+                    Cross-curricular performance comparison
+                </div>
+                <div class="feature-item">
+                    <strong>📝 Data Entry Interface</strong><br>
+                    Easy student data submission form
+                </div>
+                <div class="feature-item">
+                    <strong>🎯 Intervention Prioritization</strong><br>
+                    Data-driven support recommendations
+                </div>
+                <div class="feature-item">
+                    <strong>📊 Executive Dashboards</strong><br>
+                    High-level summaries for administrators
+                </div>
+            </div>
+
+            <!-- Instructions -->
+            <div style="margin-top: 2rem; padding: 1.5rem; background: #e8f5e8; border-radius: 8px; border-left: 4px solid #4caf50;">
+                <h4>🚀 How to Access the Live Dashboard</h4>
+                <p><strong>Option 1: Run the dashboard directly</strong></p>
+                <code style="background: #f8f9fa; padding: 0.5rem; border-radius: 4px; display: block; margin: 0.5rem 0;">
+                    python run_dashboard.py
+                </code>
+                
+                <p><strong>Option 2: Use Streamlit command</strong></p>
+                <code style="background: #f8f9fa; padding: 0.5rem; border-radius: 4px; display: block; margin: 0.5rem 0;">
+                    python -m streamlit run streamlit_app.py
+                </code>
+                
+                <p><strong>Features when running live:</strong></p>
+                <ul>
+                    <li>✅ Interactive charts and visualizations</li>
+                    <li>✅ Real-time data filtering and analysis</li>
+                    <li>✅ Data submission forms</li>
+                    <li>✅ AWS integration (when configured)</li>
+                    <li>✅ Responsive design for all devices</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
