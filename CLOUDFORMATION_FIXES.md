@@ -114,10 +114,23 @@ The CloudFormation template is now ready for deployment with:
 
 ### **⚠️ Manual Steps Required**:
 1. **S3 Bucket Notifications**: Add manually after stack deployment:
+
+   **Option 1 - Automated Script (Recommended):**
+   ```bash
+   # Linux/Mac
+   chmod +x scripts/setup-s3-notifications.sh
+   ./scripts/setup-s3-notifications.sh
+
+   # Windows
+   scripts\setup-s3-notifications.bat
+   ```
+
+   **Option 2 - Manual AWS CLI:**
    ```bash
    aws s3api put-bucket-notification-configuration \
      --bucket your-raw-bucket-name \
-     --notification-configuration file://notification-config.json
+     --notification-configuration file://infrastructure/s3-notification-config.json \
+     --region af-south-1
    ```
 
 2. **Lambda Code Deployment**: Replace placeholder code with actual implementation

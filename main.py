@@ -15,6 +15,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'app'))
 from app.core.predictive_system import PredictiveInterventionSystem
 from app.ui.dashboard import render_dashboard_overview, render_student_selector
 from app.ui.student_analysis import render_individual_student
+from app.ui.aws_health_dashboard import render_aws_health_dashboard
 from app.tutorials.tutorial_manager import TutorialManager
 
 # Page configuration
@@ -44,11 +45,12 @@ def main():
     page = st.sidebar.selectbox(
         "Choose View",
         [
-            "🏠 Dashboard Overview", 
-            "👤 Individual Student", 
-            "📊 Predictive Analytics", 
-            "📋 Intervention Plans", 
-            "👩‍🏫 Teacher Portal", 
+            "🏠 Dashboard Overview",
+            "👤 Individual Student",
+            "☁️ AWS Health Monitor",
+            "📊 Predictive Analytics",
+            "📋 Intervention Plans",
+            "👩‍🏫 Teacher Portal",
             "👨‍👩‍👧‍👦 Parent Portal"
         ]
     )
@@ -64,6 +66,8 @@ def main():
         render_dashboard_overview(system)
     elif page == "👤 Individual Student":
         render_individual_student(system)
+    elif page == "☁️ AWS Health Monitor":
+        render_aws_health_dashboard()
     elif page == "📊 Predictive Analytics":
         render_predictive_analytics(system)
     elif page == "📋 Intervention Plans":

@@ -1,0 +1,25 @@
+{
+  "LambdaFunctionConfigurations": [
+    {
+      "Id": "ProcessRawDataFiles",
+      "LambdaFunctionArn": "arn:aws:lambda:af-south-1:986831602518:function:student-insights-pipeline-data-processing-dev",
+      "Events": [
+        "s3:ObjectCreated:*"
+      ],
+      "Filter": {
+        "Key": {
+          "FilterRules": [
+            {
+              "Name": "prefix",
+              "Value": "raw/"
+            },
+            {
+              "Name": "suffix", 
+              "Value": ".csv"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

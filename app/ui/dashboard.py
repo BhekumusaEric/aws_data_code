@@ -15,6 +15,9 @@ def render_dashboard_overview(system):
     """Render the main dashboard overview"""
     st.title("🏠 Dashboard Overview")
     st.markdown("### Real-time Student Performance Analytics")
+
+    # AWS Health Status Indicator
+    render_aws_health_indicator()
     
     # Sidebar filters
     st.sidebar.markdown("### 🔍 Filters")
@@ -306,6 +309,26 @@ def render_quick_actions():
     with col4:
         if st.button("📈 Export Data", use_container_width=True):
             st.toast("Data export prepared...")
+
+
+def render_aws_health_indicator():
+    """Render a quick AWS health status indicator"""
+    try:
+        from app.utils.aws_health_checker import AWSHealthChecker
+
+        # Quick health check (lightweight)
+        health_checker = AWSHealthChecker()
+
+        # Just check credentials for quick indicator
+        creds_status = health_checker.check_aws_credentials()
+
+        if creds_status['status'] == 'healthy':
+            st.success("☁️ **AWS Services Connected** | [View Details →](/?page=AWS+Health+Monitor)")
+        else:
+            st.error("☁️ **AWS Connection Issue** | [Troubleshoot →](/?page=AWS+Health+Monitor)")
+
+    except Exception as e:
+        st.warning("☁️ **AWS Status Unknown** | [Check Health →](/?page=AWS+Health+Monitor)")
 
 
 def render_student_selector(system):
