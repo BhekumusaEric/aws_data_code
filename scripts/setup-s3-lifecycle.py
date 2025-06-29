@@ -229,7 +229,7 @@ class S3LifecycleManager:
         Returns:
             Cost breakdown by storage class
         """
-        # AWS S3 pricing (us-east-1, approximate)
+        # AWS S3 pricing (af-south-1, approximate)
         pricing = {
             'STANDARD': 0.023,  # per GB/month
             'STANDARD_IA': 0.0125,

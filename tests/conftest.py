@@ -15,28 +15,28 @@ def aws_credentials():
     os.environ['AWS_SECRET_ACCESS_KEY'] = 'testing'
     os.environ['AWS_SECURITY_TOKEN'] = 'testing'
     os.environ['AWS_SESSION_TOKEN'] = 'testing'
-    os.environ['AWS_DEFAULT_REGION'] = 'us-east-1'
+    os.environ['AWS_DEFAULT_REGION'] = 'af-south-1'
 
 
 @pytest.fixture
 def s3_client(aws_credentials):
     """Create a mocked S3 client."""
     with mock_s3():
-        yield boto3.client('s3', region_name='us-east-1')
+        yield boto3.client('s3', region_name='af-south-1')
 
 
 @pytest.fixture
 def lambda_client(aws_credentials):
     """Create a mocked Lambda client."""
     with mock_lambda():
-        yield boto3.client('lambda', region_name='us-east-1')
+        yield boto3.client('lambda', region_name='af-south-1')
 
 
 @pytest.fixture
 def api_gateway_client(aws_credentials):
     """Create a mocked API Gateway client."""
     with mock_apigateway():
-        yield boto3.client('apigateway', region_name='us-east-1')
+        yield boto3.client('apigateway', region_name='af-south-1')
 
 
 @pytest.fixture

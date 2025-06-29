@@ -74,7 +74,7 @@ REM Run the deployment
 echo 🚀 Starting deployment process...
 echo This may take 10-15 minutes...
 
-python deploy.py --environment %ENVIRONMENT% --region us-east-1
+python deploy.py --environment %ENVIRONMENT% --region af-south-1
 if errorlevel 1 (
     echo ❌ Deployment failed! Check the error messages above.
     echo.

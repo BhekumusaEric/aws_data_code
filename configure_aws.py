@@ -18,7 +18,7 @@ def check_existing_credentials():
         identity = sts.get_caller_identity()
         print(f"✅ AWS credentials already configured!")
         print(f"   Account: {identity['Account']}")
-        print(f"   Region: {boto3.Session().region_name or 'us-east-1'}")
+        print(f"   Region: {boto3.Session().region_name or 'af-south-1'}")
         return True
     except Exception:
         return False
@@ -44,9 +44,9 @@ def configure_credentials_interactive():
         print("❌ Secret Access Key is required")
         return False
     
-    region = input("Enter your preferred AWS region (default: us-east-1): ").strip()
+    region = input("Enter your preferred AWS region (default: af-south-1): ").strip()
     if not region:
-        region = "us-east-1"
+        region = "af-south-1"
     
     # Create AWS credentials directory
     aws_dir = Path.home() / ".aws"
@@ -105,9 +105,9 @@ def configure_environment_variables():
         print("❌ Secret Access Key is required")
         return False
     
-    region = input("Enter your preferred AWS region (default: us-east-1): ").strip()
+    region = input("Enter your preferred AWS region (default: af-south-1): ").strip()
     if not region:
-        region = "us-east-1"
+        region = "af-south-1"
     
     # Set environment variables
     os.environ['AWS_ACCESS_KEY_ID'] = access_key

@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 class StudentInsightsPipelineDeployer:
     """Automated deployer for Student Insights Pipeline"""
     
-    def __init__(self, environment: str = 'dev', region: str = 'us-east-1'):
+    def __init__(self, environment: str = 'dev', region: str = 'af-south-1'):
         self.environment = environment
         self.region = region
         self.stack_name = f'student-insights-pipeline-{environment}'
@@ -419,7 +419,7 @@ def main():
     parser = argparse.ArgumentParser(description='Deploy Student Insights Pipeline')
     parser.add_argument('--environment', default='dev', choices=['dev', 'staging', 'prod'],
                        help='Deployment environment')
-    parser.add_argument('--region', default='us-east-1', help='AWS region')
+    parser.add_argument('--region', default='af-south-1', help='AWS region')
     parser.add_argument('--skip-tests', action='store_true', help='Skip validation tests')
     
     args = parser.parse_args()

@@ -10,7 +10,7 @@ class Config:
     """Configuration class for the Student Insights Pipeline"""
     
     # AWS Configuration
-    AWS_REGION: str = os.getenv('AWS_REGION', 'us-east-1')
+    AWS_REGION: str = os.getenv('AWS_REGION', 'af-south-1')
     
     # S3 Bucket Configuration
     RAW_BUCKET_NAME: Optional[str] = os.getenv('RAW_BUCKET_NAME')

@@ -66,7 +66,7 @@ deploy-dev:
 		--stack-name student-insights-pipeline-dev \
 		--parameter-overrides Environment=dev \
 		--capabilities CAPABILITY_NAMED_IAM \
-		--region us-east-1
+		--region af-south-1
 
 deploy-prod:
 	aws cloudformation deploy \
@@ -74,7 +74,7 @@ deploy-prod:
 		--stack-name student-insights-pipeline-prod \
 		--parameter-overrides Environment=prod \
 		--capabilities CAPABILITY_NAMED_IAM \
-		--region us-east-1
+		--region af-south-1
 
 # Package Lambda functions
 package:

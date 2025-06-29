@@ -55,7 +55,7 @@ class OptimizationRecommendation:
 class AthenaPerformanceOptimizer:
     """Athena performance optimizer and cost manager"""
     
-    def __init__(self, database_name: str, region: str = 'us-east-1'):
+    def __init__(self, database_name: str, region: str = 'af-south-1'):
         self.database_name = database_name
         self.region = region
         self.athena_client = boto3.client('athena', region_name=region)
@@ -416,7 +416,7 @@ def main():
     """Main function"""
     parser = argparse.ArgumentParser(description='Optimize Athena performance and manage costs')
     parser.add_argument('--database', required=True, help='Athena database name')
-    parser.add_argument('--region', default='us-east-1', help='AWS region')
+    parser.add_argument('--region', default='af-south-1', help='AWS region')
     parser.add_argument('--action', choices=['analyze', 'optimize-query', 'create-alert', 'report'], 
                        default='report', help='Action to perform')
     parser.add_argument('--query-id', help='Query execution ID to analyze')

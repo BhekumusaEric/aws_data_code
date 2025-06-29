@@ -22,7 +22,7 @@ class TestAthenaPerformance:
     def athena_client(self):
         """Mock Athena client for testing"""
         with mock_athena():
-            yield boto3.client('athena', region_name='us-east-1')
+            yield boto3.client('athena', region_name='af-south-1')
     
     @pytest.fixture
     def performance_test_queries(self):

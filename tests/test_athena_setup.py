@@ -22,19 +22,19 @@ class TestAthenaSetup:
     def athena_client(self):
         """Mock Athena client for testing"""
         with mock_athena():
-            yield boto3.client('athena', region_name='us-east-1')
+            yield boto3.client('athena', region_name='af-south-1')
     
     @pytest.fixture
     def s3_client(self):
         """Mock S3 client for testing"""
         with mock_s3():
-            yield boto3.client('s3', region_name='us-east-1')
+            yield boto3.client('s3', region_name='af-south-1')
     
     @pytest.fixture
     def glue_client(self):
         """Mock Glue client for testing"""
         with mock_glue():
-            yield boto3.client('glue', region_name='us-east-1')
+            yield boto3.client('glue', region_name='af-south-1')
     
     @pytest.fixture
     def test_database_name(self):

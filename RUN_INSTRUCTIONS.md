@@ -39,7 +39,7 @@ pip install -r requirements.txt
 2. **Configure AWS**
 ```bash
 aws configure
-# Enter your AWS Access Key ID, Secret, Region (us-east-1), and output format (json)
+# Enter your AWS Access Key ID, Secret, Region (af-south-1), and output format (json)
 ```
 
 3. **Deploy Infrastructure**

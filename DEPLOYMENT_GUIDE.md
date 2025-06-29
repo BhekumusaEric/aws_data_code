@@ -42,7 +42,7 @@ aws cloudformation deploy \
     --stack-name student-insights-pipeline-dev \
     --parameter-overrides Environment=dev \
     --capabilities CAPABILITY_NAMED_IAM \
-    --region us-east-1
+    --region af-south-1
 
 # Wait for deployment to complete (5-10 minutes)
 aws cloudformation wait stack-create-complete \

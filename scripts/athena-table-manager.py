@@ -29,7 +29,7 @@ logger = logging.getLogger(__name__)
 class AthenaTableManager:
     """Manages Athena tables for Student Insights Pipeline"""
     
-    def __init__(self, database_name: str, region: str = 'us-east-1'):
+    def __init__(self, database_name: str, region: str = 'af-south-1'):
         self.database_name = database_name
         self.region = region
         self.athena_client = boto3.client('athena', region_name=region)
@@ -390,7 +390,7 @@ def main():
     """Main function"""
     parser = argparse.ArgumentParser(description='Manage Athena tables for Student Insights Pipeline')
     parser.add_argument('--database', required=True, help='Athena database name')
-    parser.add_argument('--region', default='us-east-1', help='AWS region')
+    parser.add_argument('--region', default='af-south-1', help='AWS region')
     parser.add_argument('--action', choices=['setup', 'health-check', 'optimize'], 
                        default='setup', help='Action to perform')
     parser.add_argument('--output', help='Output file for reports (JSON)')

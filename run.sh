@@ -53,7 +53,7 @@ if ! aws sts get-caller-identity &> /dev/null; then
 fi
 
 ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
-REGION=$(aws configure get region || echo "us-east-1")
+REGION=$(aws configure get region || echo "af-south-1")
 print_success "AWS credentials configured for account: $ACCOUNT_ID in region: $REGION"
 
 # Set environment (default to dev)
