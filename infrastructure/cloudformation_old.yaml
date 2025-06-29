@@ -4,17 +4,14 @@ Description: 'Student Insights Pipeline - Complete AWS Infrastructure for Data E
 Parameters:
   ProjectName:
     Type: String
-    Default: student-insights-pipeline
-    Description: Name prefix for all resources
+    Default: 'student-insights-pipeline'
+    Description: 'Name prefix for all resources'
 
   Environment:
     Type: String
-    Default: dev
-    AllowedValues:
-      - dev
-      - staging
-      - prod
-    Description: Environment name
+    Default: 'dev'
+    AllowedValues: ['dev', 'staging', 'prod']
+    Description: 'Environment name'
 
 Resources:
   # S3 Buckets for data storage
@@ -34,7 +31,15 @@ Resources:
           - Id: DeleteOldVersions
             Status: Enabled
             NoncurrentVersionExpirationInDays: 30
-
+      NotificationConfiguration:
+        LambdaConfigurations:
+          - Event: s3:ObjectCreated:*
+            Function: !GetAtt DataProcessingLambda.Arn
+            Filter:
+              S3Key:
+                Rules:
+                  - Name: prefix
+                    Value: 'raw/'
 
   ProcessedDataBucket:
     Type: AWS::S3::Bucket
@@ -88,27 +93,6 @@ Resources:
                   - logs:CreateLogStream
                   - logs:PutLogEvents
                 Resource: !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:*'
-        - PolicyName: GlueAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action:
-                  - glue:GetDatabase
-                  - glue:GetTable
-                  - glue:GetTables
-                  - glue:CreateTable
-                  - glue:UpdateTable
-                  - glue:DeleteTable
-                  - glue:GetPartition
-                  - glue:GetPartitions
-                  - glue:CreatePartition
-                  - glue:UpdatePartition
-                  - glue:DeletePartition
-                  - glue:BatchCreatePartition
-                  - glue:BatchDeletePartition
-                  - glue:BatchUpdatePartition
-                Resource: '*'
 
   # Data Ingestion Lambda Function
   DataIngestionLambda:
@@ -181,7 +165,7 @@ Resources:
     Type: AWS::ApiGateway::RestApi
     Properties:
       Name: !Sub '${ProjectName}-api-${Environment}'
-      Description: API for student data ingestion
+      Description: 'API for student data ingestion'
       EndpointConfiguration:
         Types:
           - REGIONAL
@@ -192,7 +176,7 @@ Resources:
     Properties:
       RestApiId: !Ref StudentDataAPI
       ParentId: !GetAtt StudentDataAPI.RootResourceId
-      PathPart: students
+      PathPart: 'students'
 
   # API Gateway Method
   StudentDataMethod:
@@ -226,9 +210,9 @@ Resources:
         IntegrationResponses:
           - StatusCode: 200
             ResponseParameters:
-              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'''
-              method.response.header.Access-Control-Allow-Methods: '''POST,OPTIONS'''
-              method.response.header.Access-Control-Allow-Origin: '''*'''
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Methods: "'POST,OPTIONS'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
             ResponseTemplates:
               application/json: ''
         RequestTemplates:
@@ -257,14 +241,14 @@ Resources:
       FunctionName: !Ref DataIngestionLambda
       Action: lambda:InvokeFunction
       Principal: apigateway.amazonaws.com
-      SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${StudentDataAPI}/*/POST/students'
+      SourceArn: !Sub '${StudentDataAPI}/*/POST/students'
 
   # Athena Workgroup
   AthenaWorkgroup:
     Type: AWS::Athena::WorkGroup
     Properties:
       Name: !Sub '${ProjectName}-workgroup-${Environment}'
-      Description: Workgroup for student data analysis
+      Description: 'Workgroup for student data analysis'
       State: ENABLED
       WorkGroupConfiguration:
         ResultConfiguration:
@@ -279,7 +263,7 @@ Resources:
       CatalogId: !Ref AWS::AccountId
       DatabaseInput:
         Name: !Sub '${ProjectName}_database_${Environment}'
-        Description: Database for student insights data
+        Description: 'Database for student insights data'
 
   # Glue Table for Raw Student Data
   GlueTableRawData:
@@ -288,11 +272,11 @@ Resources:
       CatalogId: !Ref AWS::AccountId
       DatabaseName: !Ref GlueDatabase
       TableInput:
-        Name: raw_student_data
-        Description: Raw student performance data
+        Name: 'raw_student_data'
+        Description: 'Raw student performance data'
         TableType: EXTERNAL_TABLE
         Parameters:
-          classification: csv
+          classification: 'csv'
           delimiter: ','
           skip.header.line.count: '1'
         StorageDescriptor:
@@ -314,10 +298,10 @@ Resources:
             - Name: subject
               Type: string
           Location: !Sub 's3://${RawDataBucket}/raw/'
-          InputFormat: org.apache.hadoop.mapred.TextInputFormat
-          OutputFormat: org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat
+          InputFormat: 'org.apache.hadoop.mapred.TextInputFormat'
+          OutputFormat: 'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat'
           SerdeInfo:
-            SerializationLibrary: org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe
+            SerializationLibrary: 'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe'
             Parameters:
               field.delim: ','
 
@@ -328,11 +312,11 @@ Resources:
       CatalogId: !Ref AWS::AccountId
       DatabaseName: !Ref GlueDatabase
       TableInput:
-        Name: processed_student_data
-        Description: Processed and enriched student performance data
+        Name: 'processed_student_data'
+        Description: 'Processed and enriched student performance data'
         TableType: EXTERNAL_TABLE
         Parameters:
-          classification: parquet
+          classification: 'parquet'
         PartitionKeys:
           - Name: year
             Type: string
@@ -363,10 +347,10 @@ Resources:
             - Name: timestamp
               Type: timestamp
           Location: !Sub 's3://${ProcessedDataBucket}/processed/'
-          InputFormat: org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat
-          OutputFormat: org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat
+          InputFormat: 'org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat'
+          OutputFormat: 'org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat'
           SerdeInfo:
-            SerializationLibrary: org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe
+            SerializationLibrary: 'org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe'
 
   # CloudWatch Log Groups
   DataIngestionLogGroup:
@@ -424,47 +408,45 @@ Resources:
                   - glue:BatchUpdatePartition
                 Resource: '*'
 
-
-
 Outputs:
   RawDataBucketName:
-    Description: Name of the S3 bucket for raw data
+    Description: 'Name of the S3 bucket for raw data'
     Value: !Ref RawDataBucket
     Export:
       Name: !Sub '${ProjectName}-raw-bucket-${Environment}'
 
   ProcessedDataBucketName:
-    Description: Name of the S3 bucket for processed data
+    Description: 'Name of the S3 bucket for processed data'
     Value: !Ref ProcessedDataBucket
     Export:
       Name: !Sub '${ProjectName}-processed-bucket-${Environment}'
 
   APIGatewayURL:
-    Description: URL of the API Gateway endpoint
+    Description: 'URL of the API Gateway endpoint'
     Value: !Sub 'https://${StudentDataAPI}.execute-api.${AWS::Region}.amazonaws.com/${Environment}/students'
     Export:
       Name: !Sub '${ProjectName}-api-url-${Environment}'
 
   DataIngestionLambdaArn:
-    Description: ARN of the data ingestion Lambda function
+    Description: 'ARN of the data ingestion Lambda function'
     Value: !GetAtt DataIngestionLambda.Arn
     Export:
       Name: !Sub '${ProjectName}-ingestion-lambda-arn-${Environment}'
 
   DataProcessingLambdaArn:
-    Description: ARN of the data processing Lambda function
+    Description: 'ARN of the data processing Lambda function'
     Value: !GetAtt DataProcessingLambda.Arn
     Export:
       Name: !Sub '${ProjectName}-processing-lambda-arn-${Environment}'
 
   GlueDatabaseName:
-    Description: Name of the Glue database
+    Description: 'Name of the Glue database'
     Value: !Ref GlueDatabase
     Export:
       Name: !Sub '${ProjectName}-glue-database-${Environment}'
 
   AthenaWorkgroupName:
-    Description: Name of the Athena workgroup
+    Description: 'Name of the Athena workgroup'
     Value: !Ref AthenaWorkgroup
     Export:
       Name: !Sub '${ProjectName}-athena-workgroup-${Environment}'
